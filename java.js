@@ -1,12 +1,12 @@
 /*temporary*/
-var myGamePiece;
+var GamePiece;
 
 function startGame() {
-    myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 10, 120);
+    GameArea.start();
+    GamePiece = new component(30, 30, "red", 10, 120);
 }
 
-var myGameArea = {
+var GameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 480;
@@ -15,10 +15,10 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
-            myGameArea.key = e.keyCode;
+            GameArea.key = e.keyCode;
         })
         window.addEventListener('keyup', function (e) {
-            myGameArea.key = false;
+            GameArea.key = false;
         })
     }, 
     clear : function(){
@@ -27,7 +27,7 @@ var myGameArea = {
 }
 
 function component(width, height, color, x, y) {
-    this.gamearea = myGameArea;
+    this.gamearea = GameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -35,7 +35,7 @@ function component(width, height, color, x, y) {
     this.x = x;
     this.y = y;    
     this.update = function() {
-        ctx = myGameArea.context;
+        ctx = GameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -46,14 +46,14 @@ function component(width, height, color, x, y) {
 }
 
 function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;    
-    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -1; }
-    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 1; }
-    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -1; }
-    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 1; }
-    myGamePiece.newPos();    
-    myGamePiece.update();
+    GameArea.clear();
+    GamePiece.speedX = 0;
+    GamePiece.speedY = 0;    
+    if (GameArea.key && GameArea.key == 37) {GamePiece.speedX = -1; }
+    if (GameArea.key && GameArea.key == 39) {GamePiece.speedX = 1; }
+    if (GameArea.key && GameArea.key == 38) {GamePiece.speedY = -1; }
+    if (GameArea.key && GameArea.key == 40) {GamePiece.speedY = 1; }
+    GamePiece.newPos();    
+    GamePiece.update();
 }
 
