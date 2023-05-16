@@ -2,15 +2,13 @@
 var myGamePiece;
 
 function startGame() {
+    myGamePiece = new component(30, 30, "maleCharac/maleFront.gif", 200, 200, "image");
     myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 200, 200);
 }
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 1510;
-        this.canvas.height = 727;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
