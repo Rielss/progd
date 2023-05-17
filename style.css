@@ -1,7 +1,7 @@
 * {
   color: black;
 }
-
-body {
-
-}
+ canvas {
+  height: 600px;
+  width: 700px;
+ }

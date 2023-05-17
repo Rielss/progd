@@ -1,8 +1,10 @@
 /*temporary*/
 var myGamePiece;
+var myBackground;
 
 function startGame() {
     myGamePiece = new component(30, 30, "maleCharac/maleFront.gif", 200, 200, "image");
+    myBackground = new component(656, 270, "others/pathwalk.png", 0, 0, "image")
     myGameArea.start();
 }
 
@@ -11,6 +13,7 @@ var myGameArea = {
     start : function() {
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
             myGameArea.key = e.keyCode;
@@ -24,7 +27,12 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if ( type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
@@ -34,11 +42,14 @@ function component(width, height, color, x, y) {
     this.gravitySpeed = 0;
     this.jumpForce = -15;
     this.x = x;
-    this.y = y;    
+    this.y = y;  
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (type == "image") {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        } else {
+         ctx.fillStyle = color;
+         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
@@ -56,10 +67,12 @@ function component(width, height, color, x, y) {
             this.gravitySpeed = 0;
         }
     }
+} 
 }
 
 function updateGameArea() {
     myGameArea.clear();
+    myBackground.update();
     myGamePiece.speedX = 0;
     myGamePiece.speedY = 0;
     if (myGameArea.key && myGameArea.key === 37) { // Left arrow key
@@ -71,6 +84,5 @@ function updateGameArea() {
     if (myGameArea.key && myGameArea.key === 32) { // Spacebar for jump
         myGamePiece.jump();
     }
-    myGamePiece.newPos();
     myGamePiece.update();
 }
